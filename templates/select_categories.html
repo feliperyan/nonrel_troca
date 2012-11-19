@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{%block page_specific_script%}
+<script>
+	
+	function listCategory(data, cat){
+		//unbind all events:
+		$(".ajax_click").unbind();
+
+		var dic = data;
+
+		var text = '';
+		console.log(cat);
+		$.each(data['items'], function(index, value) { 
+  			 text = text + '<p class="cat"><a href="#" class="ajax_click">' + value + '</a></p>'
+		});
+
+		$("#categories").html('');
+		$("#categories").html(text);
+
+		var bread = '';
+		$.each(data['crumbs'], function(index, value) { 
+  			 bread = bread + '<li class="cat"><a href="#" class="ajax_click">' + value + '</a></li>'
+		});
+
+		$("#breadcrumb_categories ul").html('');
+		$("#breadcrumb_categories ul").html(bread);
+
+		bindStuff();
+		
+	}
+
+	$(document).ready(function() {
+ 		
+ 		$(".ajax_click").on({ click:function() {
+ 			var cat = $(this).text()
+ 			console.log(cat);
+			$.get("/getCategories/", {category: cat} ,function(data){
+				//alert(data);
+				listCategory(data, cat);
+			}, 'json');
+
+		}});
+	});
+	
+	function bindStuff(){
+		
+
+		$(".ajax_click").on({ click:function() {
+ 			var cat = $(this).text() 			
+ 			console.log("2nd event: "+cat);	
+			$.get("/getCategories/", {category: cat} ,function(data){
+				//alert(data);
+				listCategory(data, cat);
+			}, 'json');
+
+		}});
+
+	}
+
+</script>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<h2> Select categories </h2>
+<div id="breadcrumb_categories">
+	<ul style="inline;" >
+	</ul>
+</div>
+
+<div id="categories">
+	<a href="#" class="ajax_click">Services</a>
+	<a href="#" class="ajax_click">Objects</a>
+	<p> &nbsp; </p>
+	<p> &nbsp; </p>	
+</div>
+
+
+{% endblock %}
+
