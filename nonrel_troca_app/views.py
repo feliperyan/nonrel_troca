@@ -38,6 +38,7 @@ def getAjaxCategories(request):
 			#reached the end of the categories.
 			message = 'no more cats'
 	else:
+		#this should be a response for non ajax requests...
 		message = 'god damn'
 
 	#import time
@@ -141,7 +142,7 @@ class ItemsForLoggedUser(ListView):
 	context_object_name = 'myItems'
 	template_name = 'myItems.html'
 
-
+	#Overloading the get_queryset method of ListView
 	def get_queryset(self):
 		the_id = self.request.user.id
 		return GenericItem.objects.filter(owner_id = the_id)
