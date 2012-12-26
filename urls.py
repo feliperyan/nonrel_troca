@@ -36,3 +36,12 @@ urlpatterns = patterns('',
     #Don't add this line if you use django registration or userena for registration and auth.
     url(r'^accounts/', include('django_facebook.auth_urls')), 
 )
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}))
+
+
+    

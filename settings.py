@@ -4,9 +4,11 @@ import os
 
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-MEDIA_PATH = os.path.join(SITE_ROOT, '../media')
+MEDIA_PATH = os.path.join(SITE_ROOT, 'media')
 TEMPLATES_PATH = os.path.join(SITE_ROOT, 'templates')
 
+#I don't think this is picked up by Django_Facebook but I have it in my models.py
+FACEBOOK_STORE_LOCAL_IMAGE = os.path.join(MEDIA_PATH, 'dj-fbook')
 
 FACEBOOK_API_KEY = '112921768860216'
 FACEBOOK_APP_ID = '112921768860216'
@@ -71,12 +73,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = MEDIA_PATH
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -167,7 +169,11 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+#AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+# NOTE: THIS PROFILE MODEL IS ACTUALLY IN MY OWN APP, I JUST NAMED IT
+# LIKE THIS SO IT'D BE GROUPED WITH THE OTHER PROFILE STUFF!!!
+AUTH_PROFILE_MODULE = 'django_facebook.TrocaUserProfile'
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

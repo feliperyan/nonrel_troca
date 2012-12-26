@@ -2,8 +2,31 @@
 from django.db import models
 from django.db.models import *
 from djangotoolbox.fields import ListField, EmbeddedModelField
-
+import os
 from django.contrib.auth.models import User
+
+from django_facebook.models import BaseFacebookProfileModel
+
+
+class TrocaUserProfile(BaseFacebookProfileModel):
+    '''
+    From django_facebook
+    '''
+    user = models.OneToOneField('auth.User')
+    image = models.ImageField(blank=True, null=True, upload_to='newprofiles', max_length=255)
+
+    class Meta:
+        app_label = 'django_facebook'
+
+#Make sure we create a MyCustomProfile when creating a User
+from django.db.models.signals import post_save
+
+def create_facebook_profile(sender, instance, created, **kwargs):
+    if created:
+        TrocaUserProfile.objects.create(user=instance)
+
+post_save.connect(create_facebook_profile, sender=User)
+
 
 class Category(models.Model):
     categoryTitle = CharField(max_length=100, )

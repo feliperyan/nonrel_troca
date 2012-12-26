@@ -95,7 +95,7 @@ def genericItem(request):
 	} )
 
 
-
+@login_required
 def makeOffer(request, item_id):
 	
 	wantedItem = GenericItem.objects.get(pk=item_id)
