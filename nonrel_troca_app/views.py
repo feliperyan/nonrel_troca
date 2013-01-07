@@ -12,6 +12,7 @@ from django.views.generic import ListView
 from django.utils import simplejson
 
 
+
 def categories(request):
 	return render(request, 'select_categories.html', )
 
