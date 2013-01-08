@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from django_facebook.models import BaseFacebookProfileModel
 
+from django_mongodb_engine.contrib import MongoDBManager
 
 class TrocaUserProfile(BaseFacebookProfileModel):
     '''
@@ -62,6 +63,8 @@ class GenericItem(models.Model):
     value = IntegerField()
     location = CharField(max_length=70, blank=True, null=True)
     offers = ListField(EmbeddedModelField('Offer'), editable=False)
+
+    objects = MongoDBManager()
 
     def __unicode__(self):
         return self.title

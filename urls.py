@@ -23,9 +23,13 @@ urlpatterns = patterns('',
 	url( r'^$', index),
 	url( r'^add_item/$', genericItem),
 	url( r'^thanks/$', thanks),
+    
     url( r'^accounts/login/$', login, {'template_name': 'login.html'} ),
     url( r'^accounts/logout/$', logout, {'next_page': '/'} ),
-    url( r'^my_items/$', login_required(ItemsForLoggedUser.as_view()) ),
+
+    #url( r'^my_items/$', login_required(ItemsForLoggedUser.as_view()) ),
+    url( r'^my_items/$', myProfile, name='myProfile' ),
+
     url(r'^items/(?P<item_id>\w+)/$', detail, name='detail'),
     url(r'^item/$', genericItem, name='add_item'),
     url(r'^items/(?P<item_id>\w+)/make_offer/$', makeOffer, name='make_offer'),

@@ -135,7 +135,13 @@ def makeOffer(request, item_id):
 		})
 
 
+def myProfile(request):
+	myItems = GenericItem.objects.filter(owner_id = request.user.id)
+	itemsWithMyOffers = GenericItem.objects.raw_query({ 'offers.author_id': 2 })
 
+	return render(request, 'myItems.html', {
+			'myItems': myItems,'myOffers': itemsWithMyOffers
+	})
 
 #Could not use standard @login_required decorator since this is a ClassBased GenericView...
 class ItemsForLoggedUser(ListView):
