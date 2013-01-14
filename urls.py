@@ -32,7 +32,7 @@ urlpatterns = patterns('',
 
     url(r'^items/(?P<item_id>\w+)/$', detail, name='detail'),
     url(r'^item/$', genericItem, name='add_item'),
-    url(r'^items/(?P<item_id>\w+)/make_offer/$', makeOffer, name='make_offer'),
+    url(r'^items/(?P<item_id>\w+)/make_offer/$', makeOfferWithForm, name='make_offer'),
     url(r'^categories/$', categories, name='categories'),
     url(r'^getCategories/$', getAjaxCategories, name='getAjaxCategories'),
 
