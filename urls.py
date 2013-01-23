@@ -21,7 +21,6 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 	url( r'^$', index),
-	url( r'^add_item/$', genericItem),
 	url( r'^thanks/$', thanks),
     
     url( r'^accounts/login/$', login, {'template_name': 'login.html'} ),
@@ -31,10 +30,12 @@ urlpatterns = patterns('',
     url( r'^my_items/$', myProfile, name='myProfile' ),
 
     url(r'^items/(?P<item_id>\w+)/$', detail, name='detail'),
-    url(r'^item/$', genericItem, name='add_item'),
-    url(r'^items/(?P<item_id>\w+)/make_offer/$', makeOfferWithForm, name='make_offer'),
+
+    url(r'^add_item/(?P<category>\w+)$', add_item, name='add_item'),
     url(r'^categories/$', categories, name='categories'),
     url(r'^getCategories/$', getAjaxCategories, name='getAjaxCategories'),
+
+    url(r'^items/(?P<item_id>\w+)/make_offer/$', makeOfferWithForm, name='make_offer'),
 
     url(r'^facebook/', include('django_facebook.urls')),
     #Don't add this line if you use django registration or userena for registration and auth.

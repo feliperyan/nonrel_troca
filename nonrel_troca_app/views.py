@@ -73,29 +73,45 @@ def thanks(request):
 
 
 @login_required
-def genericItem(request):
-    if request.method == 'POST':
-        form = GenericItemForm(request.POST)
+def add_item(request, category):
 
-        print "request is post."
+    if request.method == 'POST':        
+        
+        if category == 'Books':
+            form = ModelFormBook(request.POST)        
+        elif category == 'Cameras':
+            form = ModelFormCameras(request.POST)        
+        else:        
+            form = ModelFormGenericItem(request.POST)
 
         if form.is_valid():
             #process the data in form.cleaned_data
-            t = form.cleaned_data['title']
-            d = form.cleaned_data['description']
-            v = form.cleaned_data['value']
 
-            #item = GenericItem(owner_id=request.user.id, title=t, description=d, value=v, location=None, offers=[])
-            item = GenericItem(owner_id=request.user.id, title=t, description=d, value=v, location=None, offers=[])
-            item.save()
-
+            instance = form.save(commit = False)
+            instance.owner_id = request.user.id
+            instance.save()
+            
             return HttpResponseRedirect('/thanks/')
 
     else:
-        form = GenericItemForm()
+        # Ensure that this is a "final" category:
+        p = get_object_or_404( Category, categoryTitle = category )        
+        i = Category.objects.filter( parentCategory = p )
+        if i.count() != 0:
+            raise Http404
+
+        if category == 'Books':
+            form = ModelFormBook()
+        
+        elif category == 'Cameras':
+            form = ModelFormCameras()
+        
+        else:        
+            form = ModelFormGenericItem()
 
     return render(request, 'item.html', {
         'form': form,
+        'category': category,
     } )
 
 @login_required
@@ -156,6 +172,9 @@ def makeOffer(request, item_id):
 @login_required
 def myProfile(request):
     myItems = GenericItem.objects.filter(owner_id = request.user.id)
+    
+
+    # Example of a RAW MongoDB query:
     itemsWithMyOffers = GenericItem.objects.raw_query({ 'offers.author_id': request.user.id })
 
     return render(request, 'myItems.html', {

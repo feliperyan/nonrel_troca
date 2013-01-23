@@ -64,6 +64,8 @@ class GenericItem(models.Model):
     location = CharField(max_length=70, blank=True, null=True)
     offers = ListField(EmbeddedModelField('Offer'), editable=False)
 
+    # I think I put this "objects" object in place to replace the regular objects of the QuerySet and
+    # allow for raw MongoDB queries as is needed for the "offers I have made" use case.
     objects = MongoDBManager()
 
     def __unicode__(self):
@@ -100,7 +102,12 @@ class Offer(models.Model):
         app_label = 'nonrel_troca_app'
 
 
-class Car(GenericItem):
-    kilometers = IntegerField()
+class Book(GenericItem):
+    book_author = CharField(max_length=70, )
+
+
+class Camera(GenericItem):
+    brand_name = CharField(max_length=70, )
+
 
 
