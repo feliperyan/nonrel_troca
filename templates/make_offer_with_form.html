@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if error %}
+	<h3>Must select at least 1 item to offer.</h3>
+{% endif %}
+
+{% if wantedItem.owner_id != user.id %}
+
+	<div id="offer_container">
+
+		<div id="item_wanted">
+			<h3>Make your offer for:</h3>
+			<p> Title: {{ wantedItem.title }} </p>
+			<p> {{ wantedItem.description }} </p>
+			<p> {{ wantedItem.value }} </p>
+		</div>
+
+		<form action="." method="post"> {% csrf_token %}
+
+			{{ form.as_p }}
+
+		</form>
+
+{% else %}
+	<h3>You can't swap for one of your own items.</h3>
+{% endif %}
+	
+</div>
+{% endblock %}
+
